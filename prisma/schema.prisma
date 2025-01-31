@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("VITE_DATABASE_URL")
+}
+
+model User{
+  id String @id @default(auto ()) @map("_id") @db.ObjectId
+  name String?
+  description String?
+  profilePic String?
+  posts Post[]
+}
+
+model Post{
+  id String @id @default(auto ()) @map("_id") @db.ObjectId
+  content String?
+  author User @relation(fields: [authorId], references: [id])
+  authorId String @db.ObjectId
+  PublishDate DateTime
+}
